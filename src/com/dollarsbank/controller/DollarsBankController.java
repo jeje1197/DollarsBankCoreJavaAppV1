@@ -21,6 +21,7 @@ public class DollarsBankController {
 
 	public void createNewAccount() {
 		ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("Enter Details For New Account"));
+
 		try {
 			// Get customer information
 			ColorUtility.print("Customer Name:");
@@ -89,6 +90,8 @@ public class DollarsBankController {
 	}
 
 	public void depositAmount() {
+		BalancePrinter.print(currentAccount);
+
 		try {
 			ColorUtility.print("Deposit Amount:");
 			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
@@ -104,6 +107,8 @@ public class DollarsBankController {
 	}
 
 	public void withdrawAmount() {
+		BalancePrinter.print(currentAccount);
+
 		try {
 			ColorUtility.print("Withdraw Amount:");
 			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
