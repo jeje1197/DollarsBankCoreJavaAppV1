@@ -7,7 +7,7 @@ public class ColorUtility {
 	public static final String ANSI_RED = "\u001B[31m";
 	
 	public static void print(String text) {
-		System.out.println(text);
+		System.out.println(ANSI_RESET + text);
 	}
 	
 	public static void print(String color, String text){
@@ -15,5 +15,9 @@ public class ColorUtility {
 			return;
 		}
 		System.out.println(color + text + ANSI_RESET);
+	}
+	
+	public static void setConsoleInputColor(String color) {
+		System.out.println(color);
 	}
 }

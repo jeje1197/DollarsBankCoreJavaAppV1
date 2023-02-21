@@ -12,5 +12,10 @@ public class Account {
 		this.balance = balance;
 		this.customer = customer;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Account [userId=" + userId + ", password=" + password + ", balance=" + balance + ", customer="
+				+ customer + "]";
+	}
 }
