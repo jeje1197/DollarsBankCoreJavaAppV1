@@ -10,9 +10,9 @@ public class ColorPrinter {
 		System.out.println(text);
 	}
 	
-	public static void print(String color, String text) throws Exception {
+	public static void print(String color, String text){
 		if (color != ANSI_BLUE && color != ANSI_GREEN && color != ANSI_RED) {
-			throw new Exception("Invalid color");
+			return;
 		}
 		System.out.print(color + text + ANSI_RESET);
 	}

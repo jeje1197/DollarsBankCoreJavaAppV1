@@ -3,12 +3,12 @@ package com.dollarsbank.model;
 public class Customer {
 	String name;
 	String address;
-	int number;
-	
-	public Customer(String name, String address, int number) {
+	String phoneNumber;
+
+	public Customer(String name, String address, String phoneNumber) {
 		this.name = name;
 		this.address = address;
-		this.number = number;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getName() {
@@ -18,25 +18,20 @@ public class Customer {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public String getAddress() {
 		return address;
 	}
-
+	
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public int getNumber() {
-		return number;
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
-
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
-	@Override
-	public String toString() {
-		return "Customer [name=" + name + ", address=" + address + ", number=" + number + "]";
+	
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 }

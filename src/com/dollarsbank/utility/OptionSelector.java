@@ -7,13 +7,36 @@ import java.util.regex.Pattern;
 import com.dollarsbank.exception.InvalidOptionException;
 
 public class OptionSelector {
-	private static Scanner sc;
+	private static Scanner scanner;
+	static {
+		scanner = new Scanner(System.in);
+	}
+	
+	public static void open() {
+		if (scanner != null) {
+			scanner.close();
+		}
+	}
+	
+	public static void close() {
+		if (scanner != null) {
+			scanner.close();
+		}
+	}
 	
 	public static int pickOption(int min, int max, String errorMessage) throws InvalidOptionException {
-		sc = new Scanner(System.in);
-		int selectedOption = sc.nextInt();
-		sc.nextLine();
-		sc.close();
+		int selectedOption = scanner.nextInt();
+//		sc.nextLine();
+		scanner.close();
+		if (selectedOption < min || selectedOption > max) {
+			throw new InvalidOptionException(errorMessage);
+		}
+		return selectedOption;
+	}
+	
+	public static double pickOption(double min, double max, String errorMessage) throws InvalidOptionException {
+		double selectedOption = scanner.nextDouble();
+//		sc.nextLine();
 		if (selectedOption < min || selectedOption > max) {
 			throw new InvalidOptionException(errorMessage);
 		}
@@ -21,11 +44,9 @@ public class OptionSelector {
 	}
 
 	public static String pickOption(String regex, String errorMessage) throws InvalidOptionException {
-		sc = new Scanner(System.in);
-		String selectedOption = sc.nextLine().trim();
+		String selectedOption = scanner.nextLine().trim();
 		Matcher matcher = Pattern.compile(regex)
 								.matcher(selectedOption);
-		sc.close();
 		if (!matcher.matches()) {
 			throw new InvalidOptionException(errorMessage);
 		}

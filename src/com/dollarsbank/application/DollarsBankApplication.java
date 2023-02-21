@@ -8,10 +8,12 @@ import com.dollarsbank.utility.PrettyFormatter;
 
 public class DollarsBankApplication {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args){
+		DollarsBankController controller = new DollarsBankController();
 		boolean applicationRunning = true;
-		
+
 		printWelcome();
+
 		while (applicationRunning) {
 			printOptions();
 
@@ -23,26 +25,28 @@ public class DollarsBankApplication {
 				ColorPrinter.print(ColorPrinter.ANSI_RED, e.getMessage());
 				continue;
 			}
-			
+
 			switch(selectedOption) {
 			case 1:
-				DollarsBankController.createNewAccount();
+				controller.createNewAccount();
 				break;
 			case 2:
-				DollarsBankController.login();
+				controller.login();
 				break;
 			case 3:
 				applicationRunning = false;
 				break;
 			}
 		}
+		
+		OptionSelector.close();
 	}
 	
-	private static void printWelcome() throws Exception {
+	private static void printWelcome(){
 		ColorPrinter.print(ColorPrinter.ANSI_BLUE, PrettyFormatter.format("DOLLARSBANK WELCOMES YOU!"));
 	}
 	
-	private static void printOptions() throws Exception {
+	private static void printOptions() {
 		String[] menuOptions = new String[] {
 			"1. Create New Account",
 			"2. Login",
