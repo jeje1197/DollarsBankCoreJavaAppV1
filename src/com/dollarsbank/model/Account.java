@@ -1,6 +1,7 @@
 package com.dollarsbank.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Account {
@@ -55,6 +56,11 @@ public class Account {
 
 	public void setTransactionHistory(List<String> transactionHistory) {
 		this.transactionHistory = transactionHistory;
+	}
+	
+	public void addTransaction(String transaction) {
+		transactionHistory.add("[" + (userId.hashCode() % 9999999) + "-" + transactionHistory.size() 
+		+ "] " + transaction + " on " + new Date());
 	}
 
 	@Override

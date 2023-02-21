@@ -8,8 +8,13 @@ public class TransactionPrinter {
 	public static void print(Account account) {
 		ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("5 Recent Transactions:"));
 		List<String> transactionHistory = account.getTransactionHistory();
-		for (int i = 0; i < transactionHistory.size(); i++) {
-			ColorUtility.print(i+1 + ": " + transactionHistory.get(i));
+		int numberOfTransactions = transactionHistory.size();
+		if (numberOfTransactions == 0) {
+			ColorUtility.print("No transactions");
+		} else {
+			for (int i = 0; i < 5 && i < numberOfTransactions; i++) {
+				ColorUtility.print(i+1 + ": " + transactionHistory.get(numberOfTransactions - 1 - i));
+			}
 		}
 		ColorUtility.print("");
 	}

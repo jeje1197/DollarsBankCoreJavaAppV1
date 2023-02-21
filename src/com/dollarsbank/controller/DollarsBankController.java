@@ -51,7 +51,8 @@ public class DollarsBankController {
 			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
 			double initialDeposit = OptionSelector.pickOption(5.00, 999999.00, "Invalid initial deposit amount. Must be between $5.00"
 					+ " and $999999.00");
-
+			Account newAccount = new Account(userId, password, initialDeposit, customer);
+			newAccount.addTransaction("Initial Deposit: $" + initialDeposit);
 			accounts.add(new Account(userId, password, initialDeposit, customer));
 			ColorUtility.print("Account created!");
 		} catch (InvalidOptionException e) {
@@ -95,6 +96,7 @@ public class DollarsBankController {
 					+ " and $999999.00");
 			
 			currentAccount.setBalance(currentAccount.getBalance() + depositAmount);
+			currentAccount.addTransaction("Deposit: $" + depositAmount);
 			BalancePrinter.print(currentAccount);
 		} catch (Exception e) {
 			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
@@ -109,6 +111,7 @@ public class DollarsBankController {
 					"Invalid withdraw amount. Must be between $1.00 and $" + currentAccount.getBalance());
 			
 			currentAccount.setBalance(currentAccount.getBalance() - withdrawAmount);
+			currentAccount.addTransaction("Withdraw: $" + withdrawAmount);
 			BalancePrinter.print(currentAccount);
 		} catch (Exception e) {
 			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
@@ -116,7 +119,14 @@ public class DollarsBankController {
 	}
 
 	public void fundsTransfer() {
-		
+		try {
+			// Look for account by userId
+			// Transfer amount
+			// Add transaction to history
+			// Display balance
+		} catch (Exception e) {
+			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+		}
 	}
 
 	public void viewRecentTransactions() {
