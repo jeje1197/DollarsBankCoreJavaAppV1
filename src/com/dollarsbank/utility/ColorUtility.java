@@ -18,6 +18,6 @@ public class ColorUtility {
 	}
 	
 	public static void setConsoleInputColor(String color) {
-		System.out.println(color);
+		System.out.print(color);
 	}
 }
