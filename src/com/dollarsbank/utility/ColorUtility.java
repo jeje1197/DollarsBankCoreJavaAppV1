@@ -1,6 +1,6 @@
 package com.dollarsbank.utility;
 
-public class ColorPrinter {
+public class ColorUtility {
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_BLUE = "\u001B[34m";
 	public static final String ANSI_GREEN = "\u001B[32m";
@@ -14,6 +14,6 @@ public class ColorPrinter {
 		if (color != ANSI_BLUE && color != ANSI_GREEN && color != ANSI_RED) {
 			return;
 		}
-		System.out.print(color + text + ANSI_RESET);
+		System.out.println(color + text + ANSI_RESET);
 	}
 }

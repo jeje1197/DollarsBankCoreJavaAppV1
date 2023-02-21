@@ -12,12 +12,6 @@ public class OptionSelector {
 		scanner = new Scanner(System.in);
 	}
 	
-	public static void open() {
-		if (scanner != null) {
-			scanner.close();
-		}
-	}
-	
 	public static void close() {
 		if (scanner != null) {
 			scanner.close();
@@ -26,8 +20,7 @@ public class OptionSelector {
 	
 	public static int pickOption(int min, int max, String errorMessage) throws InvalidOptionException {
 		int selectedOption = scanner.nextInt();
-//		sc.nextLine();
-		scanner.close();
+		scanner.nextLine();
 		if (selectedOption < min || selectedOption > max) {
 			throw new InvalidOptionException(errorMessage);
 		}
@@ -36,7 +29,7 @@ public class OptionSelector {
 	
 	public static double pickOption(double min, double max, String errorMessage) throws InvalidOptionException {
 		double selectedOption = scanner.nextDouble();
-//		sc.nextLine();
+		scanner.nextLine();
 		if (selectedOption < min || selectedOption > max) {
 			throw new InvalidOptionException(errorMessage);
 		}
