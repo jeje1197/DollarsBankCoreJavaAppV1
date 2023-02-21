@@ -1,7 +1,11 @@
 package com.dollarsbank.application;
 
+import java.util.List;
+
 import com.dollarsbank.controller.DollarsBankController;
 import com.dollarsbank.exception.InvalidOptionException;
+import com.dollarsbank.model.Account;
+import com.dollarsbank.model.Customer;
 import com.dollarsbank.utility.ColorUtility;
 import com.dollarsbank.utility.OptionSelector;
 import com.dollarsbank.utility.PrettyFormatter;
@@ -9,9 +13,15 @@ import com.dollarsbank.utility.PrettyFormatter;
 public class DollarsBankApplication {
 	private static DollarsBankController controller = new DollarsBankController();
 	
-	public static void main(String[] args){	
+	public static void main(String[] args){
+		loadTemplateData();
 		landingPage();
-		OptionSelector.close();
+	}
+	
+	private static void loadTemplateData() {
+		List<Account> accounts = controller.getAccounts();
+		accounts.add(new Account("sean", "password1", 3000.00, new Customer("Sean", "123 Jump St.", "9621238809")));
+		accounts.add(new Account("user2", "veryhardtoguesspassword", 50.00, new Customer("joseph", "123 Jump St.", "9621238809")));
 	}
 	
 	private static void landingPage() {
@@ -29,11 +39,12 @@ public class DollarsBankApplication {
 
 			int selectedOption = -1; 
 			try {
-				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2, or 3):");
+				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2 or 3):");
 				selectedOption = OptionSelector.pickOption(1, 3, "Invalid Option: try again.");
 			} catch (InvalidOptionException e) {
 				ColorUtility.print(ColorUtility.ANSI_RED, (e.getMessage()));
 			}
+			ColorUtility.print("");
 
 			switch(selectedOption) {
 			case 1:
@@ -51,13 +62,14 @@ public class DollarsBankApplication {
 				continue;
 			}
 		}
+		OptionSelector.close();
 	}
 	
 	private static void accountPage() {
 		boolean loggedIn = true;
 
 		while (loggedIn) {
-			ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("WELCOMES Customer!!!"));
+			ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("WELCOME Customer!!!"));
 			String[] menuOptions = new String[] {
 					"1. Deposit Amount",
 					"2. Withdraw Amount",
@@ -71,8 +83,8 @@ public class DollarsBankApplication {
 
 			int selectedOption = -1; 
 			try {
-				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2, or 3):");
-				selectedOption = OptionSelector.pickOption(1, 3, "Invalid Option: try again.");
+				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2, 3, 4, 5 or 6):");
+				selectedOption = OptionSelector.pickOption(1, 6, "Invalid Option: try again.");
 			} catch (InvalidOptionException e) {
 				ColorUtility.print(ColorUtility.ANSI_RED, (e.getMessage()));
 			}

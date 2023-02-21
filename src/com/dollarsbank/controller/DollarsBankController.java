@@ -8,9 +8,12 @@ import com.dollarsbank.exception.InvalidCredentialsException;
 import com.dollarsbank.exception.InvalidOptionException;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
+import com.dollarsbank.utility.BalancePrinter;
 import com.dollarsbank.utility.ColorUtility;
+import com.dollarsbank.utility.CustomerPrinter;
 import com.dollarsbank.utility.OptionSelector;
 import com.dollarsbank.utility.PrettyFormatter;
+import com.dollarsbank.utility.TransactionPrinter;
 
 public class DollarsBankController {
 	private List<Account> accounts = new ArrayList<>();
@@ -68,14 +71,15 @@ public class DollarsBankController {
 			String password = OptionSelector.pickOption(".*", "Invalid Credentials. Try again!");
 			
 			Optional<Account> userAccount = accounts.stream().filter((account) -> {
-				return userId == account.getUserId() && password == account.getPassword();
+				return userId.equals(account.getUserId()) && password.equals(account.getPassword());
 			}).findFirst();
 			
-			if (userAccount == null) {
+			if (userAccount.isEmpty()) {
 				throw new InvalidCredentialsException("Invalid Credentials. Try again!");
 			}
 			
 			currentAccount = userAccount.get();
+			ColorUtility.print("Successfully logged in!");
 		} catch (Exception e) {
 			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
 			return false;
@@ -89,7 +93,9 @@ public class DollarsBankController {
 			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
 			double depositAmount = OptionSelector.pickOption(5.00, 999999.00, "Invalid deposit amount. Must be between $5.00"
 					+ " and $999999.00");
+			
 			currentAccount.setBalance(currentAccount.getBalance() + depositAmount);
+			BalancePrinter.print(currentAccount);
 		} catch (Exception e) {
 			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
 		}
@@ -100,36 +106,33 @@ public class DollarsBankController {
 			ColorUtility.print("Withdraw Amount:");
 			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
 			double withdrawAmount = OptionSelector.pickOption(1.00, currentAccount.getBalance(), 
-					"Invalid withdraw amount. Must be between $1.00 and " + currentAccount.getBalance());
+					"Invalid withdraw amount. Must be between $1.00 and $" + currentAccount.getBalance());
+			
 			currentAccount.setBalance(currentAccount.getBalance() - withdrawAmount);
+			BalancePrinter.print(currentAccount);
 		} catch (Exception e) {
 			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
 		}
 	}
 
 	public void fundsTransfer() {
-
+		
 	}
 
 	public void viewRecentTransactions() {
-		ColorUtility.print(ColorUtility.ANSI_BLUE, "5 Recent Transactions:");
-		List<String> transactionHistory = currentAccount.getTransactionHistory();
-		for (int i = 0; i < transactionHistory.size(); i++) {
-			ColorUtility.print(i+1 + ": " + transactionHistory.get(i));
-		}
-		ColorUtility.print("");
+		TransactionPrinter.print(currentAccount);
 	}
 
 	public void displayCustomerInformation() {
-		ColorUtility.print(ColorUtility.ANSI_BLUE, "Customer Information:");
-		Customer customer = currentAccount.getCustomer();
-		ColorUtility.print("Name: " + customer.getName());
-		ColorUtility.print("Address: " + customer.getAddress());
-		ColorUtility.print("Phone Number: " + customer.getPhoneNumber());
+		CustomerPrinter.print(currentAccount.getCustomer());
 	}
 	
 	public void logout() {
 		currentAccount = null;
 		ColorUtility.print("Successfully logged out.");
+	}
+	
+	public List<Account> getAccounts() {
+		return accounts;
 	}
 }
