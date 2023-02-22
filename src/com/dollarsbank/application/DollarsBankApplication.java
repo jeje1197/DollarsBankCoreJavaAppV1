@@ -6,7 +6,7 @@ import com.dollarsbank.controller.DollarsBankController;
 import com.dollarsbank.exception.InvalidOptionException;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
-import com.dollarsbank.utility.ColorUtility;
+import com.dollarsbank.utility.ConsolePrinter;
 import com.dollarsbank.utility.OptionSelector;
 import com.dollarsbank.utility.PrettyFormatter;
 
@@ -22,23 +22,23 @@ public class DollarsBankApplication {
 		boolean applicationRunning = true;
 
 		while (applicationRunning) {
-			ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("DOLLARSBANK WELCOMES YOU!"));
+			ConsolePrinter.print(ConsolePrinter.ANSI_BLUE, PrettyFormatter.format("DOLLARSBANK WELCOMES YOU!"));
 			String[] menuOptions = new String[] {
 					"1. Create New Account",
 					"2. Login",
 					"3. Exit"
 				};
-			System.out.println(String.join("\n", menuOptions) + "\n");
+			ConsolePrinter.print(String.join("\n", menuOptions) + "\n");
 
 
 			int selectedOption = -1; 
 			try {
-				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2 or 3):");
+				ConsolePrinter.print(ConsolePrinter.ANSI_GREEN,  "Enter choice (1, 2 or 3):");
 				selectedOption = OptionSelector.pickOption(1, 3, "Invalid Option: try again.");
 			} catch (Exception e) {
-				ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+				ConsolePrinter.print(ConsolePrinter.ANSI_RED, e.getMessage());
 			}
-			ColorUtility.print("");
+			ConsolePrinter.print("");
 
 			switch(selectedOption) {
 			case 1:
@@ -63,7 +63,7 @@ public class DollarsBankApplication {
 		boolean loggedIn = true;
 
 		while (loggedIn) {
-			ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("WELCOME Customer!!!"));
+			ConsolePrinter.print(ConsolePrinter.ANSI_BLUE, PrettyFormatter.format("WELCOME Customer!!!"));
 			String[] menuOptions = new String[] {
 					"1. Deposit Amount",
 					"2. Withdraw Amount",
@@ -72,17 +72,17 @@ public class DollarsBankApplication {
 					"5. Display Customer Information",
 					"6. Sign Out"
 				};
-			ColorUtility.print(String.join("\n", menuOptions) + "\n");
+			ConsolePrinter.print(String.join("\n", menuOptions) + "\n");
 
 
 			int selectedOption = -1; 
 			try {
-				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2, 3, 4, 5 or 6):");
+				ConsolePrinter.print(ConsolePrinter.ANSI_GREEN,  "Enter choice (1, 2, 3, 4, 5 or 6):");
 				selectedOption = OptionSelector.pickOption(1, 6, "Invalid Option: try again.");
 			} catch (Exception e) {
-				ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+				ConsolePrinter.print(ConsolePrinter.ANSI_RED, e.getMessage());
 			}
-			ColorUtility.print("");
+			ConsolePrinter.print("");
 
 			switch(selectedOption) {
 			case 1:
@@ -115,6 +115,9 @@ public class DollarsBankApplication {
 		Account account1 = new Account("sean", "password1", 500.00, new Customer("Sean", "123 Jump St.", "9621238809"));
 		Account account2 = new Account("vikram", "password2", 500.00, new Customer("Vikram", "123 Jump St.", "9621238809"));
 		Account account3 = new Account("joseph", "veryhardtoguesspassword", 500.00, new Customer("Joseph", "123 Jump St.", "9621238809"));
+		account1.addTransaction(String.format("Initial Deposit: $%.2f", 500.00));
+		account2.addTransaction(String.format("Initial Deposit: $%.2f", 500.00));
+		account3.addTransaction(String.format("Initial Deposit: $%.2f", 500.00));
 		accounts.add(account1);
 		accounts.add(account2);
 		accounts.add(account3);
