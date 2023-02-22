@@ -13,7 +13,7 @@ public class TransactionPrinter {
 			ColorUtility.print("No transactions");
 		} else {
 			for (int i = 0; i < 5 && i < numberOfTransactions; i++) {
-				ColorUtility.print(i+1 + ": " + transactionHistory.get(numberOfTransactions - 1 - i));
+				ColorUtility.print(transactionHistory.get(numberOfTransactions - 1 - i));
 			}
 		}
 		ColorUtility.print("");

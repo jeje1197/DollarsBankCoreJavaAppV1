@@ -18,12 +18,6 @@ public class DollarsBankApplication {
 		landingPage();
 	}
 	
-	private static void loadTemplateData() {
-		List<Account> accounts = controller.getAccounts();
-		accounts.add(new Account("sean", "password1", 3000.00, new Customer("Sean", "123 Jump St.", "9621238809")));
-		accounts.add(new Account("user2", "veryhardtoguesspassword", 50.00, new Customer("joseph", "123 Jump St.", "9621238809")));
-	}
-	
 	private static void landingPage() {
 		boolean applicationRunning = true;
 
@@ -41,8 +35,8 @@ public class DollarsBankApplication {
 			try {
 				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2 or 3):");
 				selectedOption = OptionSelector.pickOption(1, 3, "Invalid Option: try again.");
-			} catch (InvalidOptionException e) {
-				ColorUtility.print(ColorUtility.ANSI_RED, (e.getMessage()));
+			} catch (Exception e) {
+				ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
 			}
 			ColorUtility.print("");
 
@@ -78,16 +72,17 @@ public class DollarsBankApplication {
 					"5. Display Customer Information",
 					"6. Sign Out"
 				};
-			System.out.println(String.join("\n", menuOptions) + "\n");
+			ColorUtility.print(String.join("\n", menuOptions) + "\n");
 
 
 			int selectedOption = -1; 
 			try {
 				ColorUtility.print(ColorUtility.ANSI_GREEN,  "Enter choice (1, 2, 3, 4, 5 or 6):");
 				selectedOption = OptionSelector.pickOption(1, 6, "Invalid Option: try again.");
-			} catch (InvalidOptionException e) {
-				ColorUtility.print(ColorUtility.ANSI_RED, (e.getMessage()));
+			} catch (Exception e) {
+				ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
 			}
+			ColorUtility.print("");
 
 			switch(selectedOption) {
 			case 1:
@@ -113,6 +108,16 @@ public class DollarsBankApplication {
 				continue;
 			}
 		}
+	}
+	
+	private static void loadTemplateData() {
+		List<Account> accounts = controller.getAccounts();
+		Account account1 = new Account("sean", "password1", 500.00, new Customer("Sean", "123 Jump St.", "9621238809"));
+		Account account2 = new Account("vikram", "password2", 500.00, new Customer("Vikram", "123 Jump St.", "9621238809"));
+		Account account3 = new Account("joseph", "veryhardtoguesspassword", 500.00, new Customer("Joseph", "123 Jump St.", "9621238809"));
+		accounts.add(account1);
+		accounts.add(account2);
+		accounts.add(account3);
 	}
 	
 }

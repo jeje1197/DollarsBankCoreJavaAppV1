@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.dollarsbank.exception.InvalidAccountIdException;
 import com.dollarsbank.exception.InvalidCredentialsException;
 import com.dollarsbank.exception.InvalidOptionException;
 import com.dollarsbank.model.Account;
@@ -52,12 +53,13 @@ public class DollarsBankController {
 			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
 			double initialDeposit = OptionSelector.pickOption(5.00, 999999.00, "Invalid initial deposit amount. Must be between $5.00"
 					+ " and $999999.00");
+
 			Account newAccount = new Account(userId, password, initialDeposit, customer);
-			newAccount.addTransaction("Initial Deposit: $" + initialDeposit);
+			newAccount.addTransaction(String.format("Initial Deposit: $%.2f", initialDeposit));
 			accounts.add(new Account(userId, password, initialDeposit, customer));
-			ColorUtility.print("Account created!");
+			ColorUtility.print("Account created!\n");
 		} catch (InvalidOptionException e) {
-			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage() + "\n");
 		}
 	}
 
@@ -81,9 +83,9 @@ public class DollarsBankController {
 			}
 			
 			currentAccount = userAccount.get();
-			ColorUtility.print("Successfully logged in!");
+			ColorUtility.print("Successfully logged in!\n");
 		} catch (Exception e) {
-			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage() + "\n");
 			return false;
 		}
 		return true;
@@ -99,11 +101,13 @@ public class DollarsBankController {
 					+ " and $999999.00");
 			
 			currentAccount.setBalance(currentAccount.getBalance() + depositAmount);
-			currentAccount.addTransaction("Deposit: $" + depositAmount);
+			currentAccount.addTransaction(String.format("Deposited: $%.2f" + depositAmount));
 			BalancePrinter.print(currentAccount);
 		} catch (Exception e) {
-			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage() + "\n");
 		}
+		
+		ColorUtility.print("");
 	}
 
 	public void withdrawAmount() {
@@ -112,25 +116,52 @@ public class DollarsBankController {
 		try {
 			ColorUtility.print("Withdraw Amount:");
 			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
-			double withdrawAmount = OptionSelector.pickOption(1.00, currentAccount.getBalance(), 
-					"Invalid withdraw amount. Must be between $1.00 and $" + currentAccount.getBalance());
+			double withdrawAmount = OptionSelector.pickOption(0.01, currentAccount.getBalance(), 
+					"Invalid withdraw amount. Must be between $0.01 and $" + currentAccount.getBalance());
 			
 			currentAccount.setBalance(currentAccount.getBalance() - withdrawAmount);
-			currentAccount.addTransaction("Withdraw: $" + withdrawAmount);
+			currentAccount.addTransaction(String.format("Withdrew $%.2f", withdrawAmount));
 			BalancePrinter.print(currentAccount);
 		} catch (Exception e) {
-			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage() + "\n");
 		}
+
+		ColorUtility.print("");
 	}
 
 	public void fundsTransfer() {
+		BalancePrinter.print(currentAccount);
+
 		try {
 			// Look for account by userId
-			// Transfer amount
+			ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("Enter the id of the account you "
+					+ "want to transfer money to"));
+			ColorUtility.print("Account Id:");
+			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
+			String accountId = OptionSelector.pickOption(".*", "Invalid account id. Try again!");
+			
+			// Get transfer amount
+			ColorUtility.print("Amount to Transfer:");
+			ColorUtility.setConsoleInputColor(ColorUtility.ANSI_GREEN);
+			double transferAmount = OptionSelector.pickOption(0.01, currentAccount.getBalance(), 
+					"Invalid transfer amount. Must be between $0.01 and $" + currentAccount.getBalance());
+	
+			// Find user account
+			Optional<Account> userAccount = accounts.stream().filter((account) -> {
+				return accountId.equals(account.getUserId());
+			}).findFirst();
+		
+			if (userAccount.isEmpty()) {
+				throw new InvalidAccountIdException("Could not find account id. Try again.");
+			}
+			
 			// Add transaction to history
+			currentAccount.addTransaction(String.format("Transfered $%.2f", transferAmount) + " to account [" + accountId + "]");
+			
 			// Display balance
+			BalancePrinter.print(currentAccount);
 		} catch (Exception e) {
-			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage());
+			ColorUtility.print(ColorUtility.ANSI_RED, e.getMessage() + "\n");
 		}
 	}
 
@@ -144,7 +175,7 @@ public class DollarsBankController {
 	
 	public void logout() {
 		currentAccount = null;
-		ColorUtility.print("Successfully logged out.");
+		ColorUtility.print("\nSuccessfully logged out.\n");
 	}
 	
 	public List<Account> getAccounts() {

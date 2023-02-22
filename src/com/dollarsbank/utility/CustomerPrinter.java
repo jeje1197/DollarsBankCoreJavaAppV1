@@ -7,6 +7,6 @@ public class CustomerPrinter {
 		ColorUtility.print(ColorUtility.ANSI_BLUE, PrettyFormatter.format("Customer Information:"));
 		ColorUtility.print("Name: " + customer.getName());
 		ColorUtility.print("Address: " + customer.getAddress());
-		ColorUtility.print("Phone Number: " + customer.getPhoneNumber());
+		ColorUtility.print("Phone Number: " + customer.getPhoneNumber() + "\n");
 	}
 }
