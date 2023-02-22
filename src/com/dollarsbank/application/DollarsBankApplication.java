@@ -3,7 +3,6 @@ package com.dollarsbank.application;
 import java.util.List;
 
 import com.dollarsbank.controller.DollarsBankController;
-import com.dollarsbank.exception.InvalidOptionException;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
 import com.dollarsbank.utility.ConsolePrinter;
